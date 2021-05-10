@@ -412,6 +412,7 @@ int tlgu(char *input_file, char *output_file)
 	 *  Note:  Local deblocking usually yields higher speeds
 	 */
 	wehaveinput = 1;
+    
 	while (wehaveinput) {
 		/* Read and process beta code in input_buffer */
 		icnt = read(infile, input_buffer, sizeof(input_buffer));
@@ -421,7 +422,7 @@ int tlgu(char *input_file, char *output_file)
 		while ((icnt > 0) && (iptr < icnt)) {
 			bytes_to_process = icnt - iptr;
 			beta_return = process_beta(bytes_to_process);
-
+            
 			/* Write processed data and reset output buffer pointer */
 			if (optr > 0) {
 				ocnt = write(outfile, output_buffer, optr);
@@ -532,13 +533,13 @@ int process_beta (int input_count)
 								/* Write info on (book) citation change */
 								if (book_change) {
 									if (opt_cit_id) {
-										sprintf(outstring, "\n\f[%s]  ", citation[0]);
+										sprintf(outstring, "\n\f[[ %s ]]  ", citation[0]);
 										output_string(outstring);
-										sprintf(outstring, "[%s]  ", citation[1]);
+										sprintf(outstring, "[[ %s ]]  ", citation[1]);
 										output_string(outstring);
-										sprintf(outstring, "[%s]  ", citation[2]);
+										sprintf(outstring, "[[ %s ]]  ", citation[2]);
 										output_string(outstring);
-										sprintf(outstring, "[%s]\n", citation[3]);
+										sprintf(outstring, "[[ %s ]]\n", citation[3]);
 										output_string(outstring);
 									}
 									book_change = 0;
@@ -560,10 +561,10 @@ int process_beta (int input_count)
 										prev_cit_x = icitation[23];
 										if (prev_cit_w != icitation[22]) {
 											prev_cit_w = icitation[22];
-											sprintf(nstring, "\n[%d.%d] ", icitation[22], icitation[23]);
+											sprintf(nstring, "\n[[ %d.%d ]] ", icitation[22], icitation[23]);
 										} 
 										else {
-											sprintf(nstring, "\n[%d] ", icitation[23]);
+											sprintf(nstring, "\n[[ %d ]] ", icitation[23]);
 										}
 										strcat(outstring, nstring);
 									}
@@ -573,42 +574,56 @@ int process_beta (int input_count)
 										prev_cit_y = icitation[24];
 										if (prev_cit_x != icitation[23]) {
 											prev_cit_x = icitation[23];
-											sprintf(nstring, "\n[%d.%d] ", icitation[23], icitation[24]);
+											sprintf(nstring, "\n[[ %d.%d ]] ", icitation[23], icitation[24]);
 										} 
 										else {
-											sprintf(nstring, "\n[%d] ", icitation[24]);
+											sprintf(nstring, "\n[[%d]] ", icitation[24]);
 										}
 										strcat(outstring, nstring);
 									}
 								}
 								else if (opt_vcit || opt_wcit || opt_xcit || opt_ycit || opt_zcit) {
-									if (opt_vcit) {
-										if (icitation[21] == 0) sprintf(nstring, "%s.", citation[21]);
-										else sprintf(nstring, "%d%s.", icitation[21], citation[21]);
+                                    sprintf(nstring, "%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d----", citation[0],icitation[0],citation[1],icitation[1],citation[2],icitation[2],citation[3],icitation[3],citation[4],icitation[4],citation[5],icitation[5],citation[6],icitation[6],citation[7],icitation[7],citation[8],icitation[8],citation[9],icitation[9],citation[10],icitation[10],citation[11],icitation[11],citation[12],icitation[12],citation[13],icitation[13],citation[14],icitation[14],citation[15],icitation[15],citation[16],icitation[16],citation[17],icitation[17],citation[18],icitation[18],citation[19],icitation[19],citation[20],icitation[20],citation[21],icitation[21],citation[22],icitation[22],citation[23],icitation[23],citation[24],icitation[24],citation[25],icitation[25],citation[26],icitation[26],citation[27],icitation[27],citation[28],icitation[28],citation[29],icitation[29],citation[30],icitation[30],citation[31],icitation[31],citation[32],icitation[32],citation[33],icitation[33]);
+									strcat(outstring, nstring);
+                                    if (opt_vcit) {
+										//if (icitation[21] == 0) sprintf(nstring, "%s.", citation[21]);
+										//else 
+                                        //printf("%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d_%s:%d \n", citation[0],icitation[0],citation[1],icitation[1],citation[2],icitation[2],citation[3],icitation[3],citation[4],icitation[4],citation[5],icitation[5],citation[6],icitation[6],citation[7],icitation[7],
+//citation[8],icitation[8],citation[9],icitation[9],citation[10],icitation[10],citation[11],icitation[11],citation[12],icitation[12],citation[13],icitation[13],citation[14],icitation[14],
+//citation[15],icitation[15],citation[16],icitation[16],citation[17],icitation[17],citation[18],icitation[18],citation[19],icitation[19],citation[20],icitation[20],citation[21],icitation[21],
+//citation[22],icitation[22],citation[23],icitation[23],citation[24],icitation[24],citation[25],icitation[25],citation[26],icitation[26],citation[27],icitation[27],citation[28],icitation[28],
+//citation[29],icitation[29],citation[30],icitation[30],citation[31],icitation[31],citation[32],icitation[32],citation[33],icitation[33] );
+                                        //printf("%d_%d_%d_%d_%d_%d_%d_%d_%d_%d_%d_%d_%d_%d_%d_%d_%d_%d_%d_%d_%d_%d_%d_%d_%d_%d_%d_%d_%d_%d_%d_%d_%d_%d \n", icitation[0],icitation[1],icitation[2],icitation[3],icitation[4],icitation[5],icitation[6],icitation[7],icitation[8],icitation[9],icitation[10],icitation[11],icitation[12],icitation[13],icitation[14],icitation[15],icitation[16],icitation[17],icitation[18],icitation[19],icitation[20],icitation[21],icitation[22],icitation[23],icitation[24],icitation[25],icitation[26],icitation[27],icitation[28],icitation[29],icitation[30],
+//icitation[31],icitation[32],icitation[33] );
+                                        sprintf(nstring, "%d__%s.", icitation[21], citation[21]);
 										if ((opt_ecit_blank) && (!*nstring)) strcpy(nstring, ecite);
 										strcat(outstring, nstring);
 									}
 									if (opt_wcit) {
-										if (icitation[22] == 0) sprintf(nstring, "%s.", citation[22]);
-										else sprintf(nstring, "%d%s.", icitation[22], citation[22]);
+										//if (icitation[22] == 0) sprintf(nstring, "%s.", citation[22]);
+										//else 
+                                        sprintf(nstring, "%d__%s.", icitation[22], citation[22]);
 										if ((opt_ecit_blank) && (!*nstring)) strcpy(nstring, ecite);
 										strcat(outstring, nstring);
 									}
 									if (opt_xcit) {
-										if (icitation[23] == 0) sprintf(nstring, "%s.", citation[23]);
-										else sprintf(nstring, "%d%s.", icitation[23], citation[23]);
+										//if (icitation[23] == 0) sprintf(nstring, "%s.", citation[23]);
+										//else 
+                                        sprintf(nstring, "%d__%s.", icitation[23], citation[23]);
 										if ((opt_ecit_blank) && (!*nstring)) strcpy(nstring, ecite);
 										strcat(outstring, nstring);
 									}
 									if (opt_ycit) {
 										if (icitation[24] == 0) sprintf(nstring, "%s.", citation[24]);
-										else sprintf(nstring, "%d%s.", icitation[24], citation[24]);
+										//else 
+                                        sprintf(nstring, "%d__%s.", icitation[24], citation[24]);
 										if ((opt_ecit_blank) && (!*nstring)) strcpy(nstring, ecite);
 										strcat(outstring, nstring);
 									}
 									if (opt_zcit) {
-										if (icitation[25] == 0) sprintf(nstring, "%s.", citation[25]);
-										else sprintf(nstring, "%d%s", icitation[25], citation[25]);
+										//if (icitation[25] == 0) sprintf(nstring, "%s.", citation[25]);
+										//else 
+                                        sprintf(nstring, "%d__%s", icitation[25], citation[25]);
 										if ((opt_ecit_blank) && (!*nstring)) strcpy(nstring, ecite);
 										strcat(outstring, nstring);
 									}
@@ -857,13 +872,17 @@ void output_utf(int ucode)
 		/* do nothing */
 	} else if (ucode < 0x80) {
 		output_buffer[optr++] = ucode;
+        
 	} else if (ucode < 0x800) {
 		output_buffer[optr++] = (ucode >> 6) | 0xc0;
 		output_buffer[optr++] = (ucode & 0x3f) | 0x80;
+        
 	} else if (ucode <= 0xffff) {
+        
 		output_buffer[optr++] = ((ucode & 0xf000) >> 12) | 0xe0;
 		output_buffer[optr++] = ((ucode & 0x0fc0) >>  6) | 0x80;
 		output_buffer[optr++] = (ucode & 0x3f) | 0x80;
+        
 	} else if (ucode <= 0x10ffff) {
 		output_buffer[optr++] = ((ucode & 0x1C0000) >> 18) | 0xF0;
 		output_buffer[optr++] = ((ucode & 0x03f000) >> 12) | 0x80;
@@ -1045,6 +1064,9 @@ int which_sigma(int nextptr)
  * Changes: optr, output_buffer
  * 27-Nov-2011 hyphen handling at the end of a line (opt_nospace)
  */
+int coucou = 0;
+unsigned int spiritusasper = 0;
+
 void beta_code(int input_count)
 {
 	int processing;
@@ -1088,9 +1110,15 @@ void beta_code(int input_count)
 					/* Handle Hellenic uppercase character */
 					get_accents();
 					betachar = input_buffer[iptr++];
+                    
+                    
+                    
+
 					if (accents == 0) get_accents(); //FIXME: handle suffix accents differently
+                    
 					if (strchr(accented_chars, betachar)) {
                         if (opt_U370) mod_accents();
+                        
 						switch (betachar) {
 							case 'A':
 								outputchar = Alpha[accents];
@@ -1125,19 +1153,41 @@ void beta_code(int input_count)
 						else outputchar = SIGMEDIALUPPER;
 					} else if (isalpha(betachar)) {
 						/* not an accented character */
-						outputchar = hellenic[betachar];
+						
+                        if( betachar == 74 ){ // spiritus asper
+                            //printf("%c %d %c %d\n", betachar, betachar, outputchar, outputchar);
+                            spiritusasper = 0x2CF0;
+                            //printf( "%s \n", output_buffer);
+                            outputchar = 0;
+                        } else {
+                            outputchar = hellenic[betachar];
+                        }
+                       
 					} else {
 						outputchar = hellenic[betachar - 0x20];
 					}
-					if (outputchar == 0) outputchar = hellenic[betachar]; /* error condition */
-					output_utf(outputchar);
+					if(outputchar == 0 && spiritusasper == 0) outputchar = hellenic[betachar]; /* error condition */
+
+                    
+					
+                    
+                    output_utf(outputchar);
 				} else if (betastate == HELLENIC && isalpha(betachar)) {
 					/* Handle hellenic lower case:
 					 * Get default character and then try to pin accents
 					 */
 					if (strchr(accented_chars, betachar)) {
 						get_accents();
+                        if( spiritusasper != 0 ){
+                            accents = accents | 2;
+                            spiritusasper = 0;
+                        }
+                        
+
                         if (opt_U370) mod_accents();
+                        
+
+
 						switch (betachar) {
 							case 'A':
 								outputchar = alpha[accents];
@@ -1166,6 +1216,8 @@ void beta_code(int input_count)
 							default:
 								break;
 						}
+                        
+                        
 					} else if (betachar == 'S') {
 						tmp = getnum();
 						if (tmp == 1) outputchar = SIGMEDIAL;
@@ -1177,7 +1229,15 @@ void beta_code(int input_count)
 					}
 
 					if (outputchar == 0) outputchar = hellenic[betachar - 0x20];
-					output_utf(outputchar);
+                    output_utf(outputchar);
+                    if( ( betachar == 'E' || betachar == 'A' ) && accents == 12 ){
+                            /*if(coucou < 100){
+                                printf("%c %d %d %d\n", betachar, betachar, outputchar, accents);
+                            
+                            }*/
+                            output_utf(0x1FC0);
+                        }
+					
 				} else if (betastate == ROMAN && isalpha(betachar)) {
 					/* Handle Roman characters */
 					//FIXME: need to process roman characters
@@ -1192,8 +1252,11 @@ void beta_code(int input_count)
 					if (betachar == '_') outputchar = 0x2014; /* EM DASH */
 					if (betachar == ':') outputchar = 0x00b7; /* Ano teleia */
 					output_utf(outputchar);
+                    
 				}
 			}
+            
+            coucou += 1;
 		} else {
 			/* Requested number of characters have been processed
 			 * or no more characters available in buffer
