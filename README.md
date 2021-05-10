@@ -4,6 +4,15 @@ This application was written Dimitri Marinakis. It is hosted here to allow for b
 
 [Project homepage](http://tlgu.carmen.gr/).
 
+# About tlgu AHE
+
+This is the version specialized on the usage with PHI. The exprot is changed and a script to turn everything into XML. There are segmentation faults while writing of tlgu output. Some changes had to be done related to some characters. Some changes had to be done for a prper reference level export. Run it like
+
+1. *make*
+2. *python3 PHItoXML.py* 
+
+If can help with the structure of .IDT files. This is welcome. 
+
 # Manual
 ## Name
 tlgu − convert beta code TLG and PHI CD-ROM txt files to Unicode
