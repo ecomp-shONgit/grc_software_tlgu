@@ -9,7 +9,8 @@ This application was written Dimitri Marinakis. It is hosted here to allow for b
 This is the version specialized on the usage with PHI. The exprot is changed and a script to turn everything into XML. There are segmentation faults while writing of tlgu output. Some changes had to be done related to some characters. Some changes had to be done for a prper reference level export. Run it like
 
 1. *make*
-2. *python3 PHItoXML.py* 
+2. Set path of PHI Library in the PHItoXML.py main.
+3. *python3 PHItoXML.py* 
 
 If can help with the structure of .IDT files. This is welcome. 
 
