@@ -12,7 +12,7 @@ This is the version specialized on the usage with PHI. The exprot is changed and
 2. Set path of PHI Library in the PHItoXML.py main.
 3. *python3 PHItoXML.py* 
 
-If can help with the structure of .IDT files. This is welcome. 
+If someone can help with the structure of .IDT files this is welcome. 
 
 # Manual
 ## Name
