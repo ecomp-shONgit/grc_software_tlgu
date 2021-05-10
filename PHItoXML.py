@@ -28,7 +28,7 @@ along with this program.  If not, see <http:#www.gnu.org/licenses/>.
 #./tlgu -r PATHTO/PHI7/INS0010.IDT gINS0010.IDT
 #TXT
 # Latin: ./tlgu -b -p -v -w -x -y -z -r -W PATHTO/PHI7/INS0040.TXT gINS0040-xxx.TXT
-# Greek: ./tlgu -b -p -v -w -x -y -z -W PATHTO/PHI7/INS0040.TXT gINS0040-xxx.TXT
+# Greek: ./tlgu -b -p -v -w -x -y -z -W PATHTO//PHI7/INS0040.TXT gINS0040-xxx.TXT
 
 
 import os, sys, io, shutil, textnorm, time
@@ -48,10 +48,8 @@ import os, sys, io, shutil, textnorm, time
 #? Unterpunkt - done
 #Schlange macht er nicht über e o - done
 #ℎ 	Σ  vor o oder a ist Behauchung [χσυμμαχία καὶ ℎόρ]κ̣ο̣[ς] Ἀ̣[θ]ε̣ν̣α̣[ίον κα]ὶ Ἐγεσταί[ον].    [χσυμμαχία καὶ Σόρ]κ?ο?[ς] Ἀ?[θ]ε?ν?α?[ίον κα]ὶ Ἐγεσταί[ον]. - Behauchung ausgeschrieben - 
-
 thisIDTinfo = []
 IDTraw = ""
-
 def delsome( ar ):
     ar[1] = ar[1].replace("\n", "").replace("\x1e", "").replace("\x11","").replace("\x02", "").replace("\x04", "").replace("\x10","").replace("\x1d", "").replace("\x11", "").replace("\x1b", "").replace("\x03", "").replace("\x17", "").replace("\x06", "").replace("\x05", "").replace("\x14", "").replace("\x1f", "").replace("\x1c", "").replace("\x0b", "").replace("\x13", "").replace("\x0e", "").replace("\x07", "").replace("\x16", "").replace("\x01","").replace("\x08","").replace("\x12","").replace("\t","").replace("\x0c","").replace("\x08","").replace("\x10","").replace("\x0f","").replace("\x15","").replace("\x18","").replace("\x19","").replace("\x03", "")
     ar[0] = ar[0].replace("\n","").replace("\x1e", "").replace("\x11","").replace("\x02", "").replace("\x04", "").replace("\x1d", "").replace("\x10","").replace("\x11", "").replace("\x1b", "").replace("\x1f", "").replace("\x03", "").replace("\x06", "").replace("\x05", "").replace("\x17", "").replace("\x14", "").replace("\x1a", "").replace("\x1c", "").replace("\x0b", "").replace("\x13", "").replace("\x0e", "").replace("\x07", "").replace("\x16", "").replace("\x01","").replace("\x08","").replace("\x12","").replace("\t","").replace("\x0c","").replace("\x08","").replace("\x10","").replace("\x0f","").replace("\x15","").replace("\x18","").replace("\x19","")
@@ -94,8 +92,9 @@ def processIDTtlguoutput(fna, od):
         print("Error extract info", li)
         raise ValueError("Some thing went wrong with the split.")
         
+    #print(thisIDTinfo)
 
-def processTLGUoutp( fna, od ):
+def processTLGUoutp( fna, od, odz ):
     
     A = None
     B = None
@@ -131,12 +130,15 @@ def processTLGUoutp( fna, od ):
                     if( A != Ao or B != Bo or C != Co or D != Do ):
                         if( A != None ):
                             #print("Major Ref changed + written", A, B, C, D, thisIDTinfo[pcount][0])
-                            print("Major Ref changed + written", A, B, C, D )
+                            
                             fnout = od+"/"+str(A)+"_"+str(D)+"_"+str(B)+"_"+str(C)+".xml"
+                            print("Major Ref changed + written", A, B, C, D, fnout )
                             #fdout = "<div db='PHI7' type='"+thisIDTinfo[pcount][1]+"' edition='"+thisIDTinfo[pcount][0]+"'>\n"+"\n".join( stackparts )+"\n</div>"
                             fdout = "<div db='PHI7' >\n"+"\n".join( stackparts )+"\n</div>"
                             with open( fnout, 'w', encoding='utf-8') as f_out:
+                        
                                 f_out.write( fdout )
+                                #print(fdout)
                             pcount += 1
                             count = 1
                             stackparts = []
@@ -186,7 +188,7 @@ def processTLGUoutp( fna, od ):
                             continue
                         if( z != None ):
                             if( num != numo ):
-                                fdirout = od+"/"+str(A)+"_"+str(D)+"_"+str(B)+"_"+str(C) 
+                                fdirout = odz+"/"+str(A)+"_"+str(D)+"_"+str(B)+"_"+str(C) 
                                 if( not os.path.exists( fdirout ) ):
                                     os.mkdir( fdirout ) 
                                 #print("thisIDTinfo", thisIDTinfo, len(thisIDTinfo), pcount)
@@ -218,32 +220,39 @@ def processTLGUoutp( fna, od ):
     except Exception as e:
         print("!! ", e )
         pass
-        #raise ValueError("Some thing went wrong")
+        raise ValueError("Some thing went wrong")
         
     
 if __name__ == "__main__":
-    phipath = "PATHTO/PHI/PHI7"
+    phipath = "PATHTO/PHI7"
     phiextdir = "PHI7extract"
     phixmldir = "PHI7XML"
+    phixmlzerldir = "PHI7XMLzerl"
     if( os.path.exists( phixmldir ) ):
         shutil.rmtree( phixmldir )
         shutil.rmtree( phiextdir )
+        shutil.rmtree( phixmlzerldir )
         os.mkdir( phixmldir ) 
         os.mkdir( phiextdir ) 
+        os.mkdir( phixmlzerldir ) 
     else:
         os.mkdir( phixmldir )
         os.mkdir( phiextdir ) 
+        os.mkdir( phixmlzerldir ) 
 
     lof = sorted( filter( lambda x: os.path.isfile(os.path.join(phipath, x)), os.listdir(phipath) ) )
-
+    #lof = ["INS0010.TXT"]
     for i in range(len(lof)):
     
         n = lof[i]
-        print(n)
+        #print(n)
         if( ".TXT" in n ):
             print("Do extract text to XML: ", phipath+"/"+n)
+            '''Handel multi Language input - there are LATIN files - get a reaturn  values from process TLGUoutp - and rerun tlgu with -r flag - maybe that is mixed in the PHI .TXT bin file, than change tlgu for beeing awair of that'''
             os.system( "./tlgu -p -a -b -c -d -v -w -x -y -z "+phipath+"/"+n+" "+phiextdir+"/"+n )
-            processTLGUoutp( phiextdir+"/"+n, phixmldir )
+            os.system( "chmod 777 "+phipath+"/"+n+" "+phiextdir+"/"+n )
+            processTLGUoutp( phiextdir+"/"+n, phixmldir, phixmlzerldir )
+            
         #elif( ".IDT" in n ):
         #    os.system( "./tlgu -r "+phipath+"/"+n+" "+phiextdir+"/"+n )
         #    processIDTtlguoutput( phiextdir+"/"+n, phixmldir )
